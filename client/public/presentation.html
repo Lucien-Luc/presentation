@@ -1174,12 +1174,20 @@
         }
 
         function nextSlide() {
+            // Don't navigate if we're on slide 0 and in reveal mode
+            if (currentSlide === 0 && revealInProgress) {
+                return;
+            }
             if (currentSlide < totalSlides - 1) {
                 showSlide(currentSlide + 1);
             }
         }
 
         function prevSlide() {
+            // Don't navigate if we're on slide 0 and in reveal mode
+            if (currentSlide === 0 && revealInProgress) {
+                return;
+            }
             if (currentSlide > 0) {
                 showSlide(currentSlide - 1);
             }
@@ -1187,6 +1195,34 @@
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
+            // If we're on the data journey slide and reveal is active, handle differently
+            if (currentSlide === 0) {
+                switch(e.key) {
+                    case 'ArrowRight':
+                    case ' ': // Spacebar
+                    case 'Enter':
+                        e.preventDefault();
+                        startReveal();
+                        return;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        // Only allow going back if reveal is not in progress
+                        if (!revealInProgress) {
+                            prevSlide();
+                        }
+                        return;
+                    case 'Escape':
+                        // Toggle fullscreen
+                        if (document.fullscreenElement) {
+                            document.exitFullscreen();
+                        } else {
+                            document.documentElement.requestFullscreen();
+                        }
+                        return;
+                }
+            }
+
+            // Normal navigation for other slides
             switch(e.key) {
                 case 'ArrowRight':
                 case ' ': // Spacebar
@@ -1219,6 +1255,11 @@
 
         // Click navigation
         document.addEventListener('click', (e) => {
+            // Don't navigate on click if we're on slide 0 - let the reveal button handle it
+            if (currentSlide === 0) {
+                return;
+            }
+            
             const rect = window.innerWidth / 2;
             if (e.clientX > rect) {
                 nextSlide();
@@ -1231,6 +1272,10 @@
         document.querySelectorAll('.progress-dot').forEach((dot, index) => {
             dot.addEventListener('click', (e) => {
                 e.stopPropagation();
+                // Don't allow navigation away from slide 0 if reveal is in progress
+                if (currentSlide === 0 && revealInProgress && index !== 0) {
+                    return;
+                }
                 showSlide(index);
             });
         });
