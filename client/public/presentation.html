@@ -1300,47 +1300,52 @@
         const totalRevealSteps = 5; // 4 steps + final arrows
 
         function startReveal() {
-            if (revealInProgress) return;
-            
-            if (currentRevealStep === 0) {
-                revealInProgress = true;
-                resetAnimations();
-            }
-
             const revealBtn = document.querySelector('.reveal-btn');
+
+            // Start the reveal sequence if not started
+            if (currentRevealStep === 0) {
+                resetAnimations();
+                revealInProgress = true;
+            }
 
             switch (currentRevealStep) {
                 case 0:
                     revealStep('insecure-diagram', 1);
                     revealStep('secure-diagram', 1);
                     revealBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Next Step';
+                    currentRevealStep++;
                     break;
                 case 1:
                     revealStep('insecure-diagram', 2);
                     revealStep('secure-diagram', 2);
+                    revealBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Next Step';
+                    currentRevealStep++;
                     break;
                 case 2:
                     revealStep('insecure-diagram', 3);
                     revealStep('secure-diagram', 3);
+                    revealBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Next Step';
+                    currentRevealStep++;
                     break;
                 case 3:
                     revealStep('insecure-diagram', 4);
                     revealStep('secure-diagram', 4);
                     revealBtn.innerHTML = '<i class="fas fa-play"></i> Show Flow';
+                    currentRevealStep++;
                     break;
                 case 4:
                     animateFlows();
                     revealBtn.innerHTML = '<i class="fas fa-redo"></i> Start Over';
+                    currentRevealStep++;
                     break;
-                case 5:
-                    currentRevealStep = -1;
+                default:
+                    // Reset everything
+                    currentRevealStep = 0;
                     revealBtn.innerHTML = '<i class="fas fa-play"></i> Show Data Journey';
                     revealInProgress = false;
                     resetAnimations();
                     break;
             }
-            
-            currentRevealStep++;
         }
 
         function resetAnimations() {
