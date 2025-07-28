@@ -521,45 +521,87 @@
         }
 
         .node-3d {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: white;
             position: relative;
             overflow: hidden;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
+            cursor: pointer;
         }
 
+        /* Glossy 3D effect like ChatGPT icon */
         .danger-node .node-3d {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            border: 3px solid #ef4444;
+            background: linear-gradient(145deg, #ff6b6b 0%, #ff5252 50%, #e53e3e 100%);
             box-shadow: 
-                0 8px 16px rgba(239, 68, 68, 0.3),
-                inset 0 2px 4px rgba(255, 255, 255, 0.2),
-                inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+                0 8px 25px rgba(239, 68, 68, 0.4),
+                0 4px 12px rgba(0, 0, 0, 0.3),
+                inset 0 2px 8px rgba(255, 255, 255, 0.25),
+                inset 0 -2px 8px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .danger-node .node-3d::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            height: 30%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+            border-radius: 14px 14px 50% 50%;
+            pointer-events: none;
         }
 
         .secure-node .node-3d {
-            background: linear-gradient(135deg, var(--bpn-green), var(--bpn-turquoise));
-            border: 3px solid var(--bpn-green);
+            background: linear-gradient(145deg, #7dd3fc 0%, #38bdf8 30%, #0ea5e9 70%, #0284c7 100%);
             box-shadow: 
-                0 8px 16px rgba(168, 203, 99, 0.3),
-                inset 0 2px 4px rgba(255, 255, 255, 0.2),
-                inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+                0 8px 25px rgba(14, 165, 233, 0.4),
+                0 4px 12px rgba(0, 0, 0, 0.3),
+                inset 0 2px 8px rgba(255, 255, 255, 0.25),
+                inset 0 -2px 8px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .secure-node .node-3d::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            height: 30%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+            border-radius: 14px 14px 50% 50%;
+            pointer-events: none;
         }
 
         .blocked-node .node-3d {
-            background: linear-gradient(135deg, #6b7280, #4b5563);
-            border: 3px solid #ef4444;
+            background: linear-gradient(145deg, #94a3b8 0%, #64748b 50%, #475569 100%);
             box-shadow: 
-                0 8px 16px rgba(107, 114, 128, 0.3),
-                inset 0 2px 4px rgba(255, 255, 255, 0.1);
-            filter: grayscale(70%);
+                0 8px 25px rgba(71, 85, 105, 0.4),
+                0 4px 12px rgba(0, 0, 0, 0.4),
+                inset 0 2px 8px rgba(255, 255, 255, 0.15),
+                inset 0 -2px 8px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(239, 68, 68, 0.6);
+            filter: contrast(0.8);
+        }
+
+        .blocked-node .node-3d::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            height: 30%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+            border-radius: 14px 14px 50% 50%;
+            pointer-events: none;
         }
 
         .blocked-node .node-3d.blocked {
@@ -567,10 +609,65 @@
         }
 
         .step-node:hover .node-3d {
-            transform: translateY(-5px) rotateX(15deg);
+            transform: translateY(-8px) rotateX(5deg) rotateY(5deg);
             box-shadow: 
-                0 15px 30px rgba(0, 0, 0, 0.4),
-                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                inset 0 2px 12px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Enhanced center icons */
+        .center-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 26px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .danger-center {
+            background: linear-gradient(145deg, #ff6b6b 0%, #ff5252 50%, #e53e3e 100%);
+            box-shadow: 
+                0 12px 30px rgba(239, 68, 68, 0.5),
+                0 6px 15px rgba(0, 0, 0, 0.3),
+                inset 0 3px 10px rgba(255, 255, 255, 0.25),
+                inset 0 -3px 10px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .secure-center {
+            background: linear-gradient(145deg, #7dd3fc 0%, #38bdf8 30%, #0ea5e9 70%, #0284c7 100%);
+            box-shadow: 
+                0 12px 30px rgba(14, 165, 233, 0.5),
+                0 6px 15px rgba(0, 0, 0, 0.3),
+                inset 0 3px 10px rgba(255, 255, 255, 0.25),
+                inset 0 -3px 10px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .danger-center::before,
+        .secure-center::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            height: 35%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+            border-radius: 18px 18px 50% 50%;
+            pointer-events: none;
         }
 
         .step-label {
@@ -1154,35 +1251,51 @@
         // Data Journey Reveal Animation
         let revealInProgress = false;
 
+        let currentRevealStep = 0;
+        const totalRevealSteps = 5; // 4 steps + final arrows
+
         function startReveal() {
             if (revealInProgress) return;
-            revealInProgress = true;
+            
+            if (currentRevealStep === 0) {
+                revealInProgress = true;
+                resetAnimations();
+            }
 
             const revealBtn = document.querySelector('.reveal-btn');
-            revealBtn.style.display = 'none';
 
-            // Reset all animations
-            resetAnimations();
-
-            // Start revealing steps
-            setTimeout(() => revealStep('insecure-diagram', 1), 500);
-            setTimeout(() => revealStep('secure-diagram', 1), 500);
-            setTimeout(() => revealStep('insecure-diagram', 2), 1500);
-            setTimeout(() => revealStep('secure-diagram', 2), 1500);
-            setTimeout(() => revealStep('insecure-diagram', 3), 2500);
-            setTimeout(() => revealStep('secure-diagram', 3), 2500);
-            setTimeout(() => revealStep('insecure-diagram', 4), 3500);
-            setTimeout(() => revealStep('secure-diagram', 4), 3500);
-
-            // Animate arrows after all steps are revealed
-            setTimeout(() => animateFlows(), 4500);
-
-            // Reset after animation completes
-            setTimeout(() => {
-                revealBtn.style.display = 'inline-flex';
-                revealBtn.innerHTML = '<i class="fas fa-redo"></i> Show Again';
-                revealInProgress = false;
-            }, 8000);
+            switch (currentRevealStep) {
+                case 0:
+                    revealStep('insecure-diagram', 1);
+                    revealStep('secure-diagram', 1);
+                    revealBtn.innerHTML = '<i class="fas fa-arrow-right"></i> Next Step';
+                    break;
+                case 1:
+                    revealStep('insecure-diagram', 2);
+                    revealStep('secure-diagram', 2);
+                    break;
+                case 2:
+                    revealStep('insecure-diagram', 3);
+                    revealStep('secure-diagram', 3);
+                    break;
+                case 3:
+                    revealStep('insecure-diagram', 4);
+                    revealStep('secure-diagram', 4);
+                    revealBtn.innerHTML = '<i class="fas fa-play"></i> Show Flow';
+                    break;
+                case 4:
+                    animateFlows();
+                    revealBtn.innerHTML = '<i class="fas fa-redo"></i> Start Over';
+                    break;
+                case 5:
+                    currentRevealStep = -1;
+                    revealBtn.innerHTML = '<i class="fas fa-play"></i> Show Data Journey';
+                    revealInProgress = false;
+                    resetAnimations();
+                    break;
+            }
+            
+            currentRevealStep++;
         }
 
         function resetAnimations() {
@@ -1259,13 +1372,14 @@
             document.getElementById(`slide-${n}`).classList.add('active');
             currentSlide = n;
 
-            // Reset reveal button if on first slide
+            // Reset reveal state when entering slide 0
             if (n === 0) {
                 const revealBtn = document.querySelector('.reveal-btn');
                 if (revealBtn) {
                     revealBtn.style.display = 'inline-flex';
                     revealBtn.innerHTML = '<i class="fas fa-play"></i> Show Data Journey';
                     revealInProgress = false;
+                    currentRevealStep = 0;
                 }
                 resetAnimations();
             }
