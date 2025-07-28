@@ -298,6 +298,55 @@
             }
         }
 
+        @keyframes flowDown {
+            0% {
+                top: -100%;
+            }
+            100% {
+                top: 100%;
+            }
+        }
+
+        @keyframes blockPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes blockPattern {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(6px);
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes protectionPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(168, 203, 99, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 30px rgba(168, 203, 99, 0.5);
+            }
+        }
+
         .animate-fade-in {
             animation: fadeInUp 0.8s ease-out;
         }
@@ -456,9 +505,151 @@
         }
 
         .flow-arrow {
+            position: relative;
+            margin: 1rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 60px;
+        }
+
+        .flow-arrow i {
             font-size: 1.5rem;
-            margin: 0.5rem 0;
-            opacity: 0.8;
+            z-index: 2;
+            position: relative;
+        }
+
+        .arrow-line {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .arrow-line::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            animation: flowDown 2s linear infinite;
+        }
+
+        .danger-arrow i {
+            color: #ef4444;
+        }
+
+        .danger-line {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        .danger-line::before {
+            background: linear-gradient(to bottom, transparent, #ef4444, transparent);
+        }
+
+        .secure-arrow i {
+            color: var(--bpn-green);
+        }
+
+        .secure-line {
+            background: rgba(168, 203, 99, 0.3);
+        }
+
+        .secure-line::before {
+            background: linear-gradient(to bottom, transparent, var(--bpn-green), transparent);
+        }
+
+        .blocked-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .blocked-arrow i {
+            font-size: 2rem;
+            color: var(--bpn-green);
+            animation: blockPulse 1.5s ease-in-out infinite;
+        }
+
+        .block-line {
+            width: 3px;
+            height: 20px;
+            background: var(--bpn-green);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .block-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 3px,
+                var(--bpn-green) 3px,
+                var(--bpn-green) 6px
+            );
+            animation: blockPattern 1s linear infinite;
+        }
+
+        .cycle-arrow {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .cycle-path {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            border-radius: 20px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px dashed #ef4444;
+        }
+
+        .cycle-path i {
+            font-size: 1.5rem;
+            color: #ef4444;
+            animation: rotate 3s linear infinite;
+        }
+
+        .cycle-label {
+            font-size: 0.9rem;
+            color: #ef4444;
+            font-weight: 500;
+        }
+
+        .protection-status {
+            margin-top: 2rem;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(168, 203, 99, 0.1);
+            border-radius: 20px;
+            border: 2px solid var(--bpn-green);
+        }
+
+        .status-icon {
+            font-size: 2rem;
+            color: var(--bpn-green);
+            margin-bottom: 0.5rem;
+            animation: protectionPulse 2s ease-in-out infinite;
+        }
+
+        .status-label {
+            font-size: 1rem;
+            color: var(--bpn-green);
+            font-weight: 600;
         }
 
         .insecure-flow {
@@ -559,8 +750,9 @@
                                 <div class="step-label">Your Input</div>
                             </div>
 
-                            <div class="flow-arrow">
-                                <i class="fas fa-arrow-down" style="color: #ef4444;"></i>
+                            <div class="flow-arrow animated-arrow danger-arrow">
+                                <i class="fas fa-arrow-down"></i>
+                                <div class="arrow-line danger-line"></div>
                             </div>
 
                             <!-- Step 2: AI Processing -->
@@ -574,8 +766,9 @@
                                 <div class="step-label">AI Processes & Stores</div>
                             </div>
 
-                            <div class="flow-arrow">
-                                <i class="fas fa-arrow-down" style="color: #ef4444;"></i>
+                            <div class="flow-arrow animated-arrow danger-arrow">
+                                <i class="fas fa-arrow-down"></i>
+                                <div class="arrow-line danger-line"></div>
                             </div>
 
                             <!-- Step 3: Data Sharing -->
@@ -589,8 +782,9 @@
                                 <div class="step-label">Data Shared Globally</div>
                             </div>
 
-                            <div class="flow-arrow">
-                                <i class="fas fa-arrow-down" style="color: #ef4444;"></i>
+                            <div class="flow-arrow animated-arrow danger-arrow">
+                                <i class="fas fa-arrow-down"></i>
+                                <div class="arrow-line danger-line"></div>
                             </div>
 
                             <!-- Step 4: Model Training -->
@@ -602,6 +796,14 @@
                                     </div>
                                 </div>
                                 <div class="step-label">Used for Training</div>
+                            </div>
+
+                            <!-- Cycle Arrow Back -->
+                            <div class="cycle-arrow danger-cycle">
+                                <div class="cycle-path">
+                                    <i class="fas fa-redo-alt"></i>
+                                    <span class="cycle-label">Cycle Continues</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -624,8 +826,9 @@
                                 <div class="step-label">Your Input</div>
                             </div>
 
-                            <div class="flow-arrow">
-                                <i class="fas fa-arrow-down" style="color: var(--bpn-green);"></i>
+                            <div class="flow-arrow animated-arrow secure-arrow">
+                                <i class="fas fa-arrow-down"></i>
+                                <div class="arrow-line secure-line"></div>
                             </div>
 
                             <!-- Step 2: Encrypted Processing -->
@@ -639,8 +842,9 @@
                                 <div class="step-label">Encrypted Processing</div>
                             </div>
 
-                            <div class="flow-arrow">
-                                <i class="fas fa-arrow-down" style="color: var(--bpn-green);"></i>
+                            <div class="flow-arrow animated-arrow secure-arrow">
+                                <i class="fas fa-arrow-down"></i>
+                                <div class="arrow-line secure-line"></div>
                             </div>
 
                             <!-- Step 3: Isolated Storage -->
@@ -654,8 +858,9 @@
                                 <div class="step-label">Private Vault</div>
                             </div>
 
-                            <div class="flow-arrow">
-                                <i class="fas fa-ban" style="color: var(--bpn-green); font-size: 2rem;"></i>
+                            <div class="blocked-arrow">
+                                <i class="fas fa-ban"></i>
+                                <div class="block-line"></div>
                             </div>
 
                             <!-- Step 4: No Training -->
@@ -667,6 +872,14 @@
                                     </div>
                                 </div>
                                 <div class="step-label">Never Used for Training</div>
+                            </div>
+
+                            <!-- Protected Status -->
+                            <div class="protection-status">
+                                <div class="status-icon">
+                                    <i class="fas fa-shield-check"></i>
+                                </div>
+                                <span class="status-label">Data Protected</span>
                             </div>
                         </div>
                     </div>
