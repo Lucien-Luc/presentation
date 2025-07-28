@@ -347,6 +347,21 @@
             }
         }
 
+        @keyframes dashFlow {
+            0% {
+                stroke-dashoffset: 10;
+            }
+            100% {
+                stroke-dashoffset: -10;
+            }
+        }
+
+        @keyframes blockShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
         .animate-fade-in {
             animation: fadeInUp 0.8s ease-out;
         }
@@ -410,13 +425,14 @@
             line-height: 1.5;
         }
 
-        /* Data Journey Visualization */
-        .data-flow-container {
+        /* Circular 3D Data Journey */
+        .circular-flow-container {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
+            border-radius: 30px;
             padding: 2rem;
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
         }
 
         .flow-title {
@@ -429,227 +445,245 @@
             gap: 0.5rem;
         }
 
-        .data-journey {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .journey-step {
-            text-align: center;
-            width: 100%;
-            max-width: 200px;
-        }
-
-        .step-visual {
+        .circular-diagram {
             position: relative;
-            width: 120px;
-            height: 80px;
-            margin: 0 auto 0.5rem;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 320px;
+            height: 320px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
         }
 
-        .step-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: all 0.3s ease;
-        }
-
-        .step-image.blocked {
-            filter: grayscale(100%) brightness(0.3);
-        }
-
-        .step-overlay {
+        .center-icon {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 600;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .danger-center {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.8), rgba(220, 38, 38, 0.8));
+            border: 3px solid #ef4444;
+            color: white;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+        }
+
+        .secure-center {
+            background: linear-gradient(135deg, rgba(168, 203, 99, 0.8), rgba(0, 114, 142, 0.8));
+            border: 3px solid var(--bpn-green);
+            color: white;
+            box-shadow: 0 0 30px rgba(168, 203, 99, 0.5);
+        }
+
+        .center-icon span {
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+        }
+
+        .circle-step {
+            position: absolute;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .circle-step.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .step-1 { top: -10px; left: 50%; transform: translateX(-50%) scale(0.5); }
+        .step-2 { top: 50%; right: -10px; transform: translateY(-50%) scale(0.5); }
+        .step-3 { bottom: -10px; left: 50%; transform: translateX(-50%) scale(0.5); }
+        .step-4 { top: 50%; left: -10px; transform: translateY(-50%) scale(0.5); }
+
+        .step-1.revealed { transform: translateX(-50%) scale(1); }
+        .step-2.revealed { transform: translateY(-50%) scale(1); }
+        .step-3.revealed { transform: translateX(-50%) scale(1); }
+        .step-4.revealed { transform: translateY(-50%) scale(1); }
+
+        .step-node {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .node-3d {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 2rem;
             color: white;
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            transform-style: preserve-3d;
         }
 
-        .step-overlay.danger {
-            background: rgba(239, 68, 68, 0.9);
-            border-color: #ef4444;
-            animation: pulse 2s ease-in-out infinite;
+        .danger-node .node-3d {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: 3px solid #ef4444;
+            box-shadow: 
+                0 8px 16px rgba(239, 68, 68, 0.3),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        .step-overlay.secure {
-            background: rgba(168, 203, 99, 0.9);
-            border-color: var(--bpn-green);
+        .secure-node .node-3d {
+            background: linear-gradient(135deg, var(--bpn-green), var(--bpn-turquoise));
+            border: 3px solid var(--bpn-green);
+            box-shadow: 
+                0 8px 16px rgba(168, 203, 99, 0.3),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        .step-overlay.blocked {
-            background: rgba(168, 203, 99, 0.9);
-            border-color: var(--bpn-green);
-            font-size: 1.5rem;
+        .blocked-node .node-3d {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            border: 3px solid #ef4444;
+            box-shadow: 
+                0 8px 16px rgba(107, 114, 128, 0.3),
+                inset 0 2px 4px rgba(255, 255, 255, 0.1);
+            filter: grayscale(70%);
+        }
+
+        .blocked-node .node-3d.blocked {
+            animation: blockShake 0.5s ease-in-out;
+        }
+
+        .step-node:hover .node-3d {
+            transform: translateY(-5px) rotateX(15deg);
+            box-shadow: 
+                0 15px 30px rgba(0, 0, 0, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3);
         }
 
         .step-label {
-            font-size: 0.9rem;
-            font-weight: 500;
+            font-size: 0.85rem;
+            font-weight: 600;
             color: rgba(255, 255, 255, 0.9);
-            margin-top: 0.5rem;
+            margin-top: 0.75rem;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
-        .flow-arrow {
-            position: relative;
-            margin: 1rem 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 60px;
-        }
-
-        .flow-arrow i {
-            font-size: 1.5rem;
-            z-index: 2;
-            position: relative;
-        }
-
-        .arrow-line {
-            position: absolute;
-            top: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 40px;
-            overflow: hidden;
-        }
-
-        .arrow-line::before {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            animation: flowDown 2s linear infinite;
-        }
-
-        .danger-arrow i {
-            color: #ef4444;
-        }
-
-        .danger-line {
-            background: rgba(239, 68, 68, 0.3);
-        }
-
-        .danger-line::before {
-            background: linear-gradient(to bottom, transparent, #ef4444, transparent);
-        }
-
-        .secure-arrow i {
-            color: var(--bpn-green);
-        }
-
-        .secure-line {
-            background: rgba(168, 203, 99, 0.3);
-        }
-
-        .secure-line::before {
-            background: linear-gradient(to bottom, transparent, var(--bpn-green), transparent);
-        }
-
-        .blocked-arrow {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 1rem 0;
-            position: relative;
-        }
-
-        .blocked-arrow i {
-            font-size: 2rem;
-            color: var(--bpn-green);
-            animation: blockPulse 1.5s ease-in-out infinite;
-        }
-
-        .block-line {
-            width: 3px;
-            height: 20px;
-            background: var(--bpn-green);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .block-line::after {
-            content: '';
+        /* SVG Flow Arrows */
+        .flow-arrows {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 3px,
-                var(--bpn-green) 3px,
-                var(--bpn-green) 6px
-            );
-            animation: blockPattern 1s linear infinite;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
         }
 
-        .cycle-arrow {
+        .arrow-path {
+            fill: none;
+            stroke-width: 3;
+            opacity: 0;
+            stroke-dasharray: 10;
+            stroke-dashoffset: 10;
+            transition: opacity 0.5s ease;
+        }
+
+        .arrow-path.animated {
+            opacity: 1;
+            animation: dashFlow 2s linear infinite;
+        }
+
+        .danger-path {
+            stroke: #ef4444;
+        }
+
+        .secure-path {
+            stroke: var(--bpn-green);
+        }
+
+        .blocked-path {
+            stroke: #6b7280;
+            opacity: 0.5;
+            stroke-dasharray: 5,5;
+        }
+
+        /* Flow Indicators */
+        .cycle-indicator, .protection-indicator {
             margin-top: 2rem;
             text-align: center;
-        }
-
-        .cycle-path {
+            padding: 1rem;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 1rem;
-            border-radius: 20px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 2px dashed #ef4444;
+            font-weight: 600;
         }
 
-        .cycle-path i {
-            font-size: 1.5rem;
+        .danger-indicator {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px dashed #ef4444;
             color: #ef4444;
+        }
+
+        .danger-indicator i {
             animation: rotate 3s linear infinite;
         }
 
-        .cycle-label {
-            font-size: 0.9rem;
-            color: #ef4444;
-            font-weight: 500;
-        }
-
-        .protection-status {
-            margin-top: 2rem;
-            text-align: center;
-            padding: 1rem;
+        .secure-indicator {
             background: rgba(168, 203, 99, 0.1);
-            border-radius: 20px;
             border: 2px solid var(--bpn-green);
+            color: var(--bpn-green);
         }
 
-        .status-icon {
-            font-size: 2rem;
-            color: var(--bpn-green);
-            margin-bottom: 0.5rem;
+        .secure-indicator i {
             animation: protectionPulse 2s ease-in-out infinite;
         }
 
-        .status-label {
-            font-size: 1rem;
-            color: var(--bpn-green);
+        /* Reveal Controls */
+        .reveal-controls {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .reveal-btn {
+            background: linear-gradient(135deg, var(--bpn-turquoise), var(--bpn-green));
+            border: none;
+            border-radius: 25px;
+            padding: 1rem 2rem;
+            color: white;
+            font-size: 1.1rem;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 114, 142, 0.3);
+        }
+
+        .reveal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 114, 142, 0.4);
+        }
+
+        .reveal-btn:active {
+            transform: translateY(0);
+        }
+
+        .reveal-btn i {
+            margin-right: 0.5rem;
         }
 
         .insecure-flow {
@@ -733,156 +767,162 @@
                 
                 <div class="two-column">
                     <!-- Regular AI Data Flow -->
-                    <div class="data-flow-container insecure-flow">
-                        <h3 class="flow-title" style="color: #ef4444; margin-bottom: 2rem;">
+                    <div class="circular-flow-container insecure-flow">
+                        <h3 class="flow-title" style="color: #ef4444; margin-bottom: 3rem;">
                             <i class="fas fa-unlock-alt"></i> Regular AI Tools
                         </h3>
                         
-                        <div class="data-journey">
-                            <!-- Step 1: User Input -->
-                            <div class="journey-step">
-                                <div class="step-visual">
-                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="User typing" class="step-image">
-                                    <div class="step-overlay">
+                        <div class="circular-diagram" id="insecure-diagram">
+                            <div class="center-icon danger-center">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Exposed Data</span>
+                            </div>
+                            
+                            <!-- Step 1: User Input (Top) -->
+                            <div class="circle-step step-1" data-step="1">
+                                <div class="step-node danger-node">
+                                    <div class="node-3d">
                                         <i class="fas fa-user"></i>
                                     </div>
+                                    <div class="step-label">Your Input</div>
                                 </div>
-                                <div class="step-label">Your Input</div>
                             </div>
 
-                            <div class="flow-arrow animated-arrow danger-arrow">
-                                <i class="fas fa-arrow-down"></i>
-                                <div class="arrow-line danger-line"></div>
-                            </div>
-
-                            <!-- Step 2: AI Processing -->
-                            <div class="journey-step">
-                                <div class="step-visual">
-                                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="AI processing" class="step-image">
-                                    <div class="step-overlay danger">
+                            <!-- Step 2: AI Processing (Right) -->
+                            <div class="circle-step step-2" data-step="2">
+                                <div class="step-node danger-node">
+                                    <div class="node-3d">
                                         <i class="fas fa-eye"></i>
                                     </div>
+                                    <div class="step-label">AI Processes</div>
                                 </div>
-                                <div class="step-label">AI Processes & Stores</div>
                             </div>
 
-                            <div class="flow-arrow animated-arrow danger-arrow">
-                                <i class="fas fa-arrow-down"></i>
-                                <div class="arrow-line danger-line"></div>
-                            </div>
-
-                            <!-- Step 3: Data Sharing -->
-                            <div class="journey-step">
-                                <div class="step-visual">
-                                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="Data sharing network" class="step-image">
-                                    <div class="step-overlay danger">
+                            <!-- Step 3: Data Sharing (Bottom) -->
+                            <div class="circle-step step-3" data-step="3">
+                                <div class="step-node danger-node">
+                                    <div class="node-3d">
                                         <i class="fas fa-share-alt"></i>
                                     </div>
+                                    <div class="step-label">Shared Globally</div>
                                 </div>
-                                <div class="step-label">Data Shared Globally</div>
                             </div>
 
-                            <div class="flow-arrow animated-arrow danger-arrow">
-                                <i class="fas fa-arrow-down"></i>
-                                <div class="arrow-line danger-line"></div>
-                            </div>
-
-                            <!-- Step 4: Model Training -->
-                            <div class="journey-step">
-                                <div class="step-visual">
-                                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="AI model training" class="step-image">
-                                    <div class="step-overlay danger">
+                            <!-- Step 4: Model Training (Left) -->
+                            <div class="circle-step step-4" data-step="4">
+                                <div class="step-node danger-node">
+                                    <div class="node-3d">
                                         <i class="fas fa-brain"></i>
                                     </div>
+                                    <div class="step-label">Used for Training</div>
                                 </div>
-                                <div class="step-label">Used for Training</div>
                             </div>
 
-                            <!-- Cycle Arrow Back -->
-                            <div class="cycle-arrow danger-cycle">
-                                <div class="cycle-path">
-                                    <i class="fas fa-redo-alt"></i>
-                                    <span class="cycle-label">Cycle Continues</span>
-                                </div>
-                            </div>
+                            <!-- Animated arrows -->
+                            <svg class="flow-arrows" viewBox="0 0 300 300">
+                                <defs>
+                                    <marker id="arrowhead-danger" markerWidth="10" markerHeight="7" 
+                                     refX="10" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444" />
+                                    </marker>
+                                </defs>
+                                <path class="arrow-path danger-path" d="M 150,50 A 70,70 0 0,1 220,150" 
+                                      marker-end="url(#arrowhead-danger)"/>
+                                <path class="arrow-path danger-path" d="M 220,150 A 70,70 0 0,1 150,250" 
+                                      marker-end="url(#arrowhead-danger)"/>
+                                <path class="arrow-path danger-path" d="M 150,250 A 70,70 0 0,1 80,150" 
+                                      marker-end="url(#arrowhead-danger)"/>
+                                <path class="arrow-path danger-path" d="M 80,150 A 70,70 0 0,1 150,50" 
+                                      marker-end="url(#arrowhead-danger)"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="cycle-indicator danger-indicator">
+                            <i class="fas fa-redo-alt"></i>
+                            <span>Endless Cycle</span>
                         </div>
                     </div>
 
                     <!-- Secure AI Data Flow -->
-                    <div class="data-flow-container secure-flow">
-                        <h3 class="flow-title" style="color: var(--bpn-green); margin-bottom: 2rem;">
+                    <div class="circular-flow-container secure-flow">
+                        <h3 class="flow-title" style="color: var(--bpn-green); margin-bottom: 3rem;">
                             <i class="fas fa-shield-alt"></i> BPN's Secure Choice
                         </h3>
                         
-                        <div class="data-journey">
-                            <!-- Step 1: User Input -->
-                            <div class="journey-step">
-                                <div class="step-visual">
-                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="User typing securely" class="step-image">
-                                    <div class="step-overlay secure">
+                        <div class="circular-diagram" id="secure-diagram">
+                            <div class="center-icon secure-center">
+                                <i class="fas fa-shield-check"></i>
+                                <span>Protected Data</span>
+                            </div>
+                            
+                            <!-- Step 1: User Input (Top) -->
+                            <div class="circle-step step-1" data-step="1">
+                                <div class="step-node secure-node">
+                                    <div class="node-3d">
                                         <i class="fas fa-user-shield"></i>
                                     </div>
+                                    <div class="step-label">Your Input</div>
                                 </div>
-                                <div class="step-label">Your Input</div>
                             </div>
 
-                            <div class="flow-arrow animated-arrow secure-arrow">
-                                <i class="fas fa-arrow-down"></i>
-                                <div class="arrow-line secure-line"></div>
-                            </div>
-
-                            <!-- Step 2: Encrypted Processing -->
-                            <div class="journey-step">
-                                <div class="step-visual">
-                                    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="Secure processing" class="step-image">
-                                    <div class="step-overlay secure">
+                            <!-- Step 2: Encrypted Processing (Right) -->
+                            <div class="circle-step step-2" data-step="2">
+                                <div class="step-node secure-node">
+                                    <div class="node-3d">
                                         <i class="fas fa-lock"></i>
                                     </div>
+                                    <div class="step-label">Encrypted</div>
                                 </div>
-                                <div class="step-label">Encrypted Processing</div>
                             </div>
 
-                            <div class="flow-arrow animated-arrow secure-arrow">
-                                <i class="fas fa-arrow-down"></i>
-                                <div class="arrow-line secure-line"></div>
-                            </div>
-
-                            <!-- Step 3: Isolated Storage -->
-                            <div class="journey-step">
-                                <div class="step-visual">
-                                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="Secure vault" class="step-image">
-                                    <div class="step-overlay secure">
+                            <!-- Step 3: Private Vault (Bottom) -->
+                            <div class="circle-step step-3" data-step="3">
+                                <div class="step-node secure-node">
+                                    <div class="node-3d">
                                         <i class="fas fa-vault"></i>
                                     </div>
+                                    <div class="step-label">Private Vault</div>
                                 </div>
-                                <div class="step-label">Private Vault</div>
                             </div>
 
-                            <div class="blocked-arrow">
-                                <i class="fas fa-ban"></i>
-                                <div class="block-line"></div>
-                            </div>
-
-                            <!-- Step 4: No Training -->
-                            <div class="journey-step">
-                                <div class="step-visual no-training">
-                                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="No training" class="step-image blocked">
-                                    <div class="step-overlay blocked">
-                                        <i class="fas fa-times"></i>
+                            <!-- Step 4: Blocked Training (Left) -->
+                            <div class="circle-step step-4" data-step="4">
+                                <div class="step-node blocked-node">
+                                    <div class="node-3d blocked">
+                                        <i class="fas fa-ban"></i>
                                     </div>
+                                    <div class="step-label">Training Blocked</div>
                                 </div>
-                                <div class="step-label">Never Used for Training</div>
                             </div>
 
-                            <!-- Protected Status -->
-                            <div class="protection-status">
-                                <div class="status-icon">
-                                    <i class="fas fa-shield-check"></i>
-                                </div>
-                                <span class="status-label">Data Protected</span>
-                            </div>
+                            <!-- Animated arrows (partial) -->
+                            <svg class="flow-arrows" viewBox="0 0 300 300">
+                                <defs>
+                                    <marker id="arrowhead-secure" markerWidth="10" markerHeight="7" 
+                                     refX="10" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="var(--bpn-green)" />
+                                    </marker>
+                                </defs>
+                                <path class="arrow-path secure-path" d="M 150,50 A 70,70 0 0,1 220,150" 
+                                      marker-end="url(#arrowhead-secure)"/>
+                                <path class="arrow-path secure-path" d="M 220,150 A 70,70 0 0,1 150,250" 
+                                      marker-end="url(#arrowhead-secure)"/>
+                                <path class="arrow-path blocked-path" d="M 150,250 A 70,70 0 0,1 80,150" 
+                                      stroke-dasharray="10,5"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="protection-indicator secure-indicator">
+                            <i class="fas fa-shield-check"></i>
+                            <span>Data Protected</span>
                         </div>
                     </div>
+                </div>
+                
+                <div class="reveal-controls">
+                    <button class="reveal-btn" onclick="startReveal()">
+                        <i class="fas fa-play"></i> Show Data Journey
+                    </button>
                 </div>
             </div>
         </div>
@@ -1110,6 +1150,126 @@
                 }
             }, 500);
         });
+
+        // Data Journey Reveal Animation
+        let revealInProgress = false;
+
+        function startReveal() {
+            if (revealInProgress) return;
+            revealInProgress = true;
+
+            const revealBtn = document.querySelector('.reveal-btn');
+            revealBtn.style.display = 'none';
+
+            // Reset all animations
+            resetAnimations();
+
+            // Start revealing steps
+            setTimeout(() => revealStep('insecure-diagram', 1), 500);
+            setTimeout(() => revealStep('secure-diagram', 1), 500);
+            setTimeout(() => revealStep('insecure-diagram', 2), 1500);
+            setTimeout(() => revealStep('secure-diagram', 2), 1500);
+            setTimeout(() => revealStep('insecure-diagram', 3), 2500);
+            setTimeout(() => revealStep('secure-diagram', 3), 2500);
+            setTimeout(() => revealStep('insecure-diagram', 4), 3500);
+            setTimeout(() => revealStep('secure-diagram', 4), 3500);
+
+            // Animate arrows after all steps are revealed
+            setTimeout(() => animateFlows(), 4500);
+
+            // Reset after animation completes
+            setTimeout(() => {
+                revealBtn.style.display = 'inline-flex';
+                revealBtn.innerHTML = '<i class="fas fa-redo"></i> Show Again';
+                revealInProgress = false;
+            }, 8000);
+        }
+
+        function resetAnimations() {
+            // Hide all steps
+            document.querySelectorAll('.circle-step').forEach(step => {
+                step.classList.remove('revealed');
+            });
+
+            // Reset arrows
+            document.querySelectorAll('.arrow-path').forEach(path => {
+                path.classList.remove('animated');
+            });
+        }
+
+        function revealStep(diagramId, stepNumber) {
+            const diagram = document.getElementById(diagramId);
+            const step = diagram.querySelector(`.step-${stepNumber}`);
+            
+            if (step) {
+                step.classList.add('revealed');
+                
+                // Add special effects for blocked step
+                if (stepNumber === 4 && diagramId === 'secure-diagram') {
+                    setTimeout(() => {
+                        const blockedNode = step.querySelector('.node-3d');
+                        blockedNode.classList.add('blocked');
+                    }, 300);
+                }
+            }
+        }
+
+        function animateFlows() {
+            // Animate insecure flow (continuous cycle)
+            const dangerPaths = document.querySelectorAll('#insecure-diagram .arrow-path');
+            dangerPaths.forEach((path, index) => {
+                setTimeout(() => {
+                    path.classList.add('animated');
+                }, index * 200);
+            });
+
+            // Animate secure flow (partial, then blocked)
+            const securePaths = document.querySelectorAll('#secure-diagram .secure-path');
+            securePaths.forEach((path, index) => {
+                setTimeout(() => {
+                    path.classList.add('animated');
+                }, index * 200);
+            });
+
+            // Show blocked path briefly
+            setTimeout(() => {
+                const blockedPath = document.querySelector('#secure-diagram .blocked-path');
+                if (blockedPath) {
+                    blockedPath.style.opacity = '0.8';
+                    setTimeout(() => {
+                        blockedPath.style.opacity = '0.3';
+                    }, 1000);
+                }
+            }, 1000);
+        }
+
+        // Auto-start reveal when slide becomes active
+        function showSlide(n) {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Update progress dots
+            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === n);
+            });
+
+            // Show current slide
+            document.getElementById(`slide-${n}`).classList.add('active');
+            currentSlide = n;
+
+            // Reset reveal button if on first slide
+            if (n === 0) {
+                const revealBtn = document.querySelector('.reveal-btn');
+                if (revealBtn) {
+                    revealBtn.style.display = 'inline-flex';
+                    revealBtn.innerHTML = '<i class="fas fa-play"></i> Show Data Journey';
+                    revealInProgress = false;
+                }
+                resetAnimations();
+            }
+        }
 
         // Initialize
         showSlide(0);
