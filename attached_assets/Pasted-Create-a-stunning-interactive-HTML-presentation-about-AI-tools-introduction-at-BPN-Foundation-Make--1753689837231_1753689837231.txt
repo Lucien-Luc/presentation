@@ -1,0 +1,64 @@
+Create a stunning interactive HTML presentation about AI tools introduction at BPN Foundation. Make it breathtakingly visual and entertaining while professional.
+DESIGN & BRANDING:
+
+Use BPN brand colors: Turquoise (#00728e primary), Green (#a8cb63 accent), Grey (#e3e3e3), White (#ffffff), Black (#000000)
+Ultra-modern, sleek design with smooth animations
+Fullscreen presentation optimized
+MINIMAL TEXT - let visuals tell the story
+Use online image URLs from unsplash.com, pexels.com (e.g., https://images.unsplash.com/photo-...)
+Include: security icons, data flow diagrams, team collaboration images, privacy shields, server/cloud images
+
+STRUCTURE: Exactly 3 slides with cinematic transitions
+SLIDE 1: "Why We Chose Secure AI"
+Visual story showing:
+
+Split animation: Regular AI (data exposed, training feeds, open locks) vs BPN's Choice (ChatGPT Teams + Gemini Workspace - shields, closed locks, isolated data)
+Animated data flow diagrams
+Key visual message: "Your Data = Protected"
+Click-through reveals with smooth animations
+
+SLIDE 2: "How to Access & Use"
+Visual step-by-step guide:
+
+Shared team account concept (one login, multiple users)
+Access workflow with animated UI mockups
+Team collaboration visuals
+Simple icons showing: Login → Create → Collaborate → Secure
+Interactive click-through steps
+
+SLIDE 3: "Best Practices"
+Visual infographic with animated reveals:
+
+Anonymization: Before/After examples with visual transformations
+Prohibited data types with crossed-out icons
+Approved tools showcase
+Security best practices as visual metaphors
+Data protection principles with shield/lock imagery
+
+INTERACTIVE FEATURES:
+
+Slick click-through animations
+Arrow navigation between elements
+Hover effects and micro-animations
+Progress dots/indicators
+Smooth slide transitions (fade, slide, zoom effects)
+Keyboard navigation (spacebar, arrows)
+
+TECHNICAL REQUIREMENTS:
+
+Single HTML file with embedded CSS/JS
+Modern CSS animations (transforms, transitions, keyframes)
+Responsive fullscreen design
+Professional typography
+Clean, minimal interface with maximum visual impact
+
+VISUAL STYLE:
+
+Glass-morphism effects
+Gradient backgrounds
+Smooth shadow effects
+Modern card layouts
+Animated icons and illustrations
+Cinematic presentation feel
+
+Make it visually stunning, highly interactive, and memorable while keeping text to absolute minimum!
