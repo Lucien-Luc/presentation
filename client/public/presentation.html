@@ -107,8 +107,11 @@
         .two-column {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 6rem;
             margin-top: 3rem;
+            max-width: 1600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .three-column {
@@ -436,7 +439,7 @@
         }
 
         .flow-title {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 600;
             text-align: center;
             display: flex;
@@ -447,8 +450,8 @@
 
         .circular-diagram {
             position: relative;
-            width: 320px;
-            height: 320px;
+            width: 450px;
+            height: 450px;
             margin: 0 auto;
             border-radius: 50%;
             background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
@@ -503,10 +506,10 @@
             transform: scale(1);
         }
 
-        .step-1 { top: -10px; left: 50%; transform: translateX(-50%) scale(0.5); }
-        .step-2 { top: 50%; right: -10px; transform: translateY(-50%) scale(0.5); }
-        .step-3 { bottom: -10px; left: 50%; transform: translateX(-50%) scale(0.5); }
-        .step-4 { top: 50%; left: -10px; transform: translateY(-50%) scale(0.5); }
+        .step-1 { top: -20px; left: 50%; transform: translateX(-50%) scale(0.5); }
+        .step-2 { top: 50%; right: -20px; transform: translateY(-50%) scale(0.5); }
+        .step-3 { bottom: -20px; left: 50%; transform: translateX(-50%) scale(0.5); }
+        .step-4 { top: 50%; left: -20px; transform: translateY(-50%) scale(0.5); }
 
         .step-1.revealed { transform: translateX(-50%) scale(1); }
         .step-2.revealed { transform: translateY(-50%) scale(1); }
@@ -521,13 +524,13 @@
         }
 
         .node-3d {
-            width: 90px;
-            height: 90px;
-            border-radius: 22px;
+            width: 120px;
+            height: 120px;
+            border-radius: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.2rem;
+            font-size: 3rem;
             color: white;
             position: relative;
             overflow: hidden;
@@ -621,14 +624,14 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-            border-radius: 26px;
+            width: 160px;
+            height: 160px;
+            border-radius: 32px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 600;
             z-index: 10;
             backdrop-filter: blur(10px);
@@ -671,10 +674,10 @@
         }
 
         .step-label {
-            font-size: 0.85rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.9);
-            margin-top: 0.75rem;
+            margin-top: 1rem;
             text-align: center;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
@@ -916,20 +919,20 @@
                             </div>
 
                             <!-- Animated arrows -->
-                            <svg class="flow-arrows" viewBox="0 0 300 300">
+                            <svg class="flow-arrows" viewBox="0 0 450 450">
                                 <defs>
-                                    <marker id="arrowhead-danger" markerWidth="10" markerHeight="7" 
-                                     refX="10" refY="3.5" orient="auto">
-                                        <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444" />
+                                    <marker id="arrowhead-danger" markerWidth="12" markerHeight="9" 
+                                     refX="12" refY="4.5" orient="auto">
+                                        <polygon points="0 0, 12 4.5, 0 9" fill="#ef4444" />
                                     </marker>
                                 </defs>
-                                <path class="arrow-path danger-path" d="M 150,50 A 70,70 0 0,1 220,150" 
+                                <path class="arrow-path danger-path" d="M 225,70 A 100,100 0 0,1 325,225" 
                                       marker-end="url(#arrowhead-danger)"/>
-                                <path class="arrow-path danger-path" d="M 220,150 A 70,70 0 0,1 150,250" 
+                                <path class="arrow-path danger-path" d="M 325,225 A 100,100 0 0,1 225,380" 
                                       marker-end="url(#arrowhead-danger)"/>
-                                <path class="arrow-path danger-path" d="M 150,250 A 70,70 0 0,1 80,150" 
+                                <path class="arrow-path danger-path" d="M 225,380 A 100,100 0 0,1 125,225" 
                                       marker-end="url(#arrowhead-danger)"/>
-                                <path class="arrow-path danger-path" d="M 80,150 A 70,70 0 0,1 150,50" 
+                                <path class="arrow-path danger-path" d="M 125,225 A 100,100 0 0,1 225,70" 
                                       marker-end="url(#arrowhead-danger)"/>
                             </svg>
                         </div>
@@ -993,18 +996,18 @@
                             </div>
 
                             <!-- Animated arrows (partial) -->
-                            <svg class="flow-arrows" viewBox="0 0 300 300">
+                            <svg class="flow-arrows" viewBox="0 0 450 450">
                                 <defs>
-                                    <marker id="arrowhead-secure" markerWidth="10" markerHeight="7" 
-                                     refX="10" refY="3.5" orient="auto">
-                                        <polygon points="0 0, 10 3.5, 0 7" fill="var(--bpn-green)" />
+                                    <marker id="arrowhead-secure" markerWidth="12" markerHeight="9" 
+                                     refX="12" refY="4.5" orient="auto">
+                                        <polygon points="0 0, 12 4.5, 0 9" fill="var(--bpn-green)" />
                                     </marker>
                                 </defs>
-                                <path class="arrow-path secure-path" d="M 150,50 A 70,70 0 0,1 220,150" 
+                                <path class="arrow-path secure-path" d="M 225,70 A 100,100 0 0,1 325,225" 
                                       marker-end="url(#arrowhead-secure)"/>
-                                <path class="arrow-path secure-path" d="M 220,150 A 70,70 0 0,1 150,250" 
+                                <path class="arrow-path secure-path" d="M 325,225 A 100,100 0 0,1 225,380" 
                                       marker-end="url(#arrowhead-secure)"/>
-                                <path class="arrow-path blocked-path" d="M 150,250 A 70,70 0 0,1 80,150" 
+                                <path class="arrow-path blocked-path" d="M 225,380 A 100,100 0 0,1 125,225" 
                                       stroke-dasharray="10,5"/>
                             </svg>
                         </div>
