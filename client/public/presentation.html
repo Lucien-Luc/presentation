@@ -24,11 +24,30 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0f0f23 100%);
+            background-size: 400% 400%;
+            animation: backgroundShimmer 8s ease-in-out infinite;
             color: white;
             overflow: hidden;
             height: 100vh;
             cursor: none;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 114, 142, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 203, 99, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 228, 255, 0.05) 0%, transparent 50%);
+            animation: particleFloat 6s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
         }
 
         /* Presentation Container */
@@ -80,6 +99,16 @@
             z-index: 2;
             max-width: 1200px;
             width: 100%;
+            animation: slideContentFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes slideContentFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         /* Typography */
@@ -87,12 +116,15 @@
             font-size: 4.5rem;
             font-weight: 800;
             margin-bottom: 2rem;
-            background: linear-gradient(135deg, var(--bpn-turquoise), var(--bpn-green));
+            background: linear-gradient(135deg, var(--bpn-turquoise), var(--bpn-green), #00e4ff, var(--bpn-turquoise));
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             line-height: 1.1;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: titleGlow 3s ease-in-out infinite, gradientFlow 4s ease-in-out infinite;
+            transform: translateZ(0);
         }
 
         .slide-subtitle {
@@ -101,6 +133,8 @@
             margin-bottom: 4rem;
             font-weight: 300;
             letter-spacing: 0.5px;
+            animation: subtitlePulse 2.5s ease-in-out infinite;
+            text-shadow: 0 2px 15px rgba(255, 255, 255, 0.2);
         }
 
         /* Content Layouts */
@@ -365,6 +399,134 @@
             75% { transform: translateX(5px); }
         }
 
+        @keyframes titleGlow {
+            0%, 100% {
+                filter: brightness(1) drop-shadow(0 0 20px rgba(0, 114, 142, 0.3));
+            }
+            50% {
+                filter: brightness(1.2) drop-shadow(0 0 30px rgba(168, 203, 99, 0.5));
+            }
+        }
+
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes subtitlePulse {
+            0%, 100% {
+                opacity: 0.9;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes backgroundShimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translate(10px, -15px) rotate(90deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translate(5px, -30px) rotate(180deg);
+                opacity: 1;
+            }
+            75% {
+                transform: translate(-5px, -15px) rotate(270deg);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes flowingEnergy {
+            0% {
+                stroke-dashoffset: 0;
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                stroke-dashoffset: -40;
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes containerBreathe {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.02);
+                opacity: 0.95;
+            }
+        }
+
+        @keyframes diagramGlow {
+            0%, 100% {
+                filter: brightness(1) drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+            }
+            50% {
+                filter: brightness(1.1) drop-shadow(0 0 30px rgba(255, 255, 255, 0.2));
+            }
+        }
+
+        @keyframes dangerPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 
+                    0 8px 25px rgba(239, 68, 68, 0.4),
+                    0 4px 12px rgba(0, 0, 0, 0.3),
+                    inset 0 2px 8px rgba(255, 255, 255, 0.25);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 
+                    0 12px 35px rgba(239, 68, 68, 0.6),
+                    0 6px 15px rgba(0, 0, 0, 0.4),
+                    inset 0 3px 12px rgba(255, 255, 255, 0.35);
+            }
+        }
+
+        @keyframes securePulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 
+                    0 8px 25px rgba(14, 165, 233, 0.4),
+                    0 4px 12px rgba(0, 0, 0, 0.3),
+                    inset 0 2px 8px rgba(255, 255, 255, 0.25);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 
+                    0 12px 35px rgba(14, 165, 233, 0.6),
+                    0 6px 15px rgba(0, 0, 0, 0.4),
+                    inset 0 3px 12px rgba(255, 255, 255, 0.35);
+            }
+        }
+
         .animate-fade-in {
             animation: fadeInUp 0.8s ease-out;
         }
@@ -436,6 +598,14 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
+            animation: containerBreathe 4s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .circular-flow-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .flow-title {
@@ -455,6 +625,21 @@
             margin: 0 auto;
             border-radius: 50%;
             background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: diagramGlow 3s ease-in-out infinite;
+            overflow: visible;
+        }
+
+        .circular-diagram::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 114, 142, 0.2), transparent, rgba(168, 203, 99, 0.2), transparent);
+            animation: rotate 10s linear infinite;
+            z-index: -1;
         }
 
         .center-icon {
@@ -548,6 +733,7 @@
                 inset 0 2px 8px rgba(255, 255, 255, 0.25),
                 inset 0 -2px 8px rgba(0, 0, 0, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: dangerPulse 2.5s ease-in-out infinite;
         }
 
         .danger-node .node-3d::before {
@@ -570,6 +756,7 @@
                 inset 0 2px 8px rgba(255, 255, 255, 0.25),
                 inset 0 -2px 8px rgba(0, 0, 0, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: securePulse 2s ease-in-out infinite;
         }
 
         .secure-node .node-3d::before {
@@ -930,13 +1117,17 @@
                                     </marker>
                                 </defs>
                                 <path class="arrow-path danger-path" d="M 225,70 A 100,100 0 0,1 325,225" 
-                                      marker-end="url(#arrowhead-danger)"/>
+                                      marker-end="url(#arrowhead-danger)" stroke-dasharray="5,3"
+                                      style="animation: flowingEnergy 2s linear infinite;"/>
                                 <path class="arrow-path danger-path" d="M 325,225 A 100,100 0 0,1 225,380" 
-                                      marker-end="url(#arrowhead-danger)"/>
+                                      marker-end="url(#arrowhead-danger)" stroke-dasharray="5,3"
+                                      style="animation: flowingEnergy 2s linear infinite 0.5s;"/>
                                 <path class="arrow-path danger-path" d="M 225,380 A 100,100 0 0,1 125,225" 
-                                      marker-end="url(#arrowhead-danger)"/>
+                                      marker-end="url(#arrowhead-danger)" stroke-dasharray="5,3"
+                                      style="animation: flowingEnergy 2s linear infinite 1s;"/>
                                 <path class="arrow-path danger-path" d="M 125,225 A 100,100 0 0,1 225,70" 
-                                      marker-end="url(#arrowhead-danger)"/>
+                                      marker-end="url(#arrowhead-danger)" stroke-dasharray="5,3"
+                                      style="animation: flowingEnergy 2s linear infinite 1.5s;"/>
                             </svg>
                         </div>
                         
@@ -1007,11 +1198,13 @@
                                     </marker>
                                 </defs>
                                 <path class="arrow-path secure-path" d="M 225,70 A 100,100 0 0,1 325,225" 
-                                      marker-end="url(#arrowhead-secure)"/>
+                                      marker-end="url(#arrowhead-secure)" stroke-dasharray="8,2"
+                                      style="animation: flowingEnergy 1.5s linear infinite;"/>
                                 <path class="arrow-path secure-path" d="M 325,225 A 100,100 0 0,1 225,380" 
-                                      marker-end="url(#arrowhead-secure)"/>
+                                      marker-end="url(#arrowhead-secure)" stroke-dasharray="8,2"
+                                      style="animation: flowingEnergy 1.5s linear infinite 0.3s;"/>
                                 <path class="arrow-path blocked-path" d="M 225,380 A 100,100 0 0,1 125,225" 
-                                      stroke-dasharray="10,5"/>
+                                      stroke-dasharray="10,5" style="animation: flowingEnergy 3s linear infinite reverse;"/>
                             </svg>
                         </div>
                         
