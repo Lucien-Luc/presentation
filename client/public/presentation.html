@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools Introduction - BPN Foundation</title>
+    <meta name="description" content="Interactive presentation introducing secure AI tools at BPN Foundation - ChatGPT Teams and Gemini Workspace for protected data processing.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bpn-turquoise: #00728e;
+            --bpn-green: #a8cb63;
+            --bpn-grey: #e3e3e3;
+            --bpn-white: #ffffff;
+            --bpn-black: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--bpn-turquoise) 0%, var(--bpn-green) 100%);
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .progress-dot.active {
+            background: var(--bpn-turquoise);
+            transform: scale(1.2);
+            box-shadow: 0 0 20px rgba(0, 114, 142, 0.6);
+        }
+
+        /* Navigation Controls */
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Slide Container */
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide.prev {
+            opacity: 0;
+            transform: translateX(-100%);
+        }
+
+        /* Slide Backgrounds */
+        .slide-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        /* Typography */
+        .slide-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--bpn-turquoise), var(--bpn-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .slide-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Content Grids */
+        .content-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 3rem;
+        }
+
+        .content-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .content-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* Content Cards */
+        .content-card {
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .content-card-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .content-card-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .content-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        /* Data Flow Animation */
+        .data-flow-container {
+            max-width: 800px;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .data-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .flow-node {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            position: relative;
+        }
+
+        .flow-line {
+            flex: 1;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--bpn-green), transparent);
+            animation: flow 3s linear infinite;
+        }
+
+        /* Step Cards */
+        .step-card {
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .step-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .step-card-content {
+            border-radius: 24px;
+            padding: 2rem;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .step-image {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 12px;
+            opacity: 0.8;
+        }
+
+        /* Security Principles */
+        .security-principles {
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .principles-header {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .principle-item {
+            text-align: center;
+        }
+
+        .principle-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .principle-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes flow {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { 
+                opacity: 1;
+                box-shadow: 0 0 20px rgba(168, 203, 99, 0.4);
+            }
+            50% { 
+                opacity: 0.7;
+                box-shadow: 0 0 30px rgba(168, 203, 99, 0.6);
+            }
+        }
+
+        @keyframes slide-up {
+            from { 
+                transform: translateY(60px); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateY(0); 
+                opacity: 1; 
+            }
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        .animate-slide-up {
+            animation: slide-up 0.8s ease-out;
+        }
+
+        /* Reveal Animation */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal-item.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Color Variants */
+        .bg-turquoise { background: var(--bpn-turquoise); }
+        .bg-green { background: var(--bpn-green); }
+        .bg-red { background: #ef4444; }
+        
+        .text-turquoise { color: var(--bpn-turquoise); }
+        .text-green { color: var(--bpn-green); }
+        .text-red { color: #ef4444; }
+
+        /* Workflow Progress */
+        .workflow-progress {
+            max-width: 1000px;
+            width: 100%;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .workflow-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--bpn-turquoise), var(--bpn-green));
+            transform: translateY(-50%);
+        }
+
+        .workflow-dots {
+            display: flex;
+            justify-between;
+            position: relative;
+        }
+
+        .workflow-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            transition: all 0.4s ease;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .slide-title { font-size: 3rem; }
+            .content-grid-2 { grid-template-columns: 1fr; gap: 2rem; }
+            .content-grid-3 { grid-template-columns: 1fr 1fr; }
+            .content-grid-4 { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .slide { padding: 2rem; }
+            .slide-title { font-size: 2.5rem; }
+            .slide-subtitle { font-size: 1.2rem; }
+            .content-grid-3 { grid-template-columns: 1fr; }
+            .content-grid-4 { grid-template-columns: 1fr; }
+            .principles-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Indicator -->
+    <div class="progress-container">
+        <div class="progress-dot active" data-slide="0"></div>
+        <div class="progress-dot" data-slide="1"></div>
+        <div class="progress-dot" data-slide="2"></div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" disabled>
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="nav-btn" id="nextBtn">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Presentation Container -->
+    <div class="presentation-container">
+        <!-- Slide 1: Why We Chose Secure AI -->
+        <div class="slide active" data-slide="0">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080');"></div>
+            
+            <div class="animate-slide-up">
+                <h1 class="slide-title">Why We Chose Secure AI</h1>
+                <p class="slide-subtitle">Your Data = Protected</p>
+            </div>
+
+            <div class="content-grid-2">
+                <!-- Regular AI Side -->
+                <div class="content-card glass-morphism reveal-item" onclick="revealContent(0)">
+                    <div class="content-card-header">
+                        <h3 class="content-card-title text-red">Regular AI</h3>
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300" alt="Unsecured data network" class="content-card-image">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                <i class="fas fa-unlock-alt" style="font-size: 4rem; color: #ef4444; animation: pulse-glow 2s infinite;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-exclamation-triangle text-red"></i>
+                            <span>Data exposed during training</span>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-share-alt text-red"></i>
+                            <span>Information shared publicly</span>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-eye text-red"></i>
+                            <span>No privacy controls</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- BPN's Choice Side -->
+                <div class="content-card glass-morphism reveal-item" onclick="revealContent(1)">
+                    <div class="content-card-header">
+                        <h3 class="content-card-title text-green">BPN's Choice</h3>
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1563206767-5b18f218e8de?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300" alt="Secure cloud infrastructure" class="content-card-image">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                <i class="fas fa-shield-alt" style="font-size: 4rem; color: var(--bpn-green); animation: pulse-glow 2s infinite;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-lock text-green"></i>
+                            <span>ChatGPT Teams + Gemini Workspace</span>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-user-shield text-green"></i>
+                            <span>Isolated data environment</span>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-check-circle text-green"></i>
+                            <span>Complete privacy control</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Data Flow Animation -->
+            <div class="data-flow-container">
+                <div class="data-flow">
+                    <div class="flow-node glass-morphism bg-turquoise animate-float">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="flow-line"></div>
+                    <div class="flow-node glass-morphism bg-green animate-float" style="animation-delay: 0.5s;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="flow-line"></div>
+                    <div class="flow-node glass-morphism bg-turquoise animate-float" style="animation-delay: 1s;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div style="text-align: center; color: rgba(255, 255, 255, 0.6); font-size: 0.95rem;">
+                    Your Data → Secure Processing → Protected Results
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: How to Access & Use -->
+        <div class="slide" data-slide="1">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080');"></div>
+            
+            <div class="animate-slide-up">
+                <h1 class="slide-title">How to Access & Use</h1>
+                <p class="slide-subtitle">Simple. Secure. Collaborative.</p>
+            </div>
+
+            <div class="content-grid-4">
+                <!-- Step 1: Login -->
+                <div class="step-card reveal-item" onclick="revealStep(0)">
+                    <div class="step-card-content glass-morphism">
+                        <div class="step-number bg-turquoise animate-pulse-glow">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200" alt="Secure login interface" class="step-image">
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Login</h3>
+                    <p style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.6);">One shared team account</p>
+                </div>
+
+                <!-- Step 2: Create -->
+                <div class="step-card reveal-item" onclick="revealStep(1)">
+                    <div class="step-card-content glass-morphism">
+                        <div class="step-number bg-green animate-pulse-glow" style="animation-delay: 0.5s;">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200" alt="Creative AI workspace" class="step-image">
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Create</h3>
+                    <p style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.6);">Generate with AI tools</p>
+                </div>
+
+                <!-- Step 3: Collaborate -->
+                <div class="step-card reveal-item" onclick="revealStep(2)">
+                    <div class="step-card-content glass-morphism">
+                        <div class="step-number bg-turquoise animate-pulse-glow" style="animation-delay: 1s;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200" alt="Team collaboration" class="step-image">
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Collaborate</h3>
+                    <p style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.6);">Share and refine together</p>
+                </div>
+
+                <!-- Step 4: Secure -->
+                <div class="step-card reveal-item" onclick="revealStep(3)">
+                    <div class="step-card-content glass-morphism">
+                        <div class="step-number bg-green animate-pulse-glow" style="animation-delay: 1.5s;">
+                            <i class="fas fa-shield-check"></i>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200" alt="Data security" class="step-image">
+                    </div>
+                    <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Secure</h3>
+                    <p style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.6);">Data stays protected</p>
+                </div>
+            </div>
+
+            <!-- Workflow Progress -->
+            <div class="workflow-progress">
+                <div class="workflow-line"></div>
+                <div class="workflow-dots">
+                    <div class="workflow-dot bg-turquoise animate-pulse-glow"></div>
+                    <div class="workflow-dot bg-green animate-pulse-glow" style="animation-delay: 0.5s;"></div>
+                    <div class="workflow-dot bg-turquoise animate-pulse-glow" style="animation-delay: 1s;"></div>
+                    <div class="workflow-dot bg-green animate-pulse-glow" style="animation-delay: 1.5s;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Best Practices -->
+        <div class="slide" data-slide="2">
+            <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080');"></div>
+            
+            <div class="animate-slide-up">
+                <h1 class="slide-title">Best Practices</h1>
+                <p class="slide-subtitle">Secure AI Usage Guidelines</p>
+            </div>
+
+            <div class="content-grid-3">
+                <!-- Anonymization -->
+                <div class="content-card glass-morphism reveal-item" onclick="revealPractice(0)">
+                    <div class="content-card-header">
+                        <div class="content-card-icon bg-turquoise animate-float">
+                            <i class="fas fa-user-secret"></i>
+                        </div>
+                        <h3 class="content-card-title">Data Anonymization</h3>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="background: rgba(239, 68, 68, 0.2); border-radius: 12px; padding: 1rem; font-size: 0.9rem;">
+                            <span style="color: #ef4444;">❌ Before:</span> John Smith from BPN
+                        </div>
+                        <div style="background: rgba(168, 203, 99, 0.2); border-radius: 12px; padding: 1rem; font-size: 0.9rem;">
+                            <span style="color: var(--bpn-green);">✅ After:</span> [Employee] from [Company]
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prohibited Data -->
+                <div class="content-card glass-morphism reveal-item" onclick="revealPractice(1)">
+                    <div class="content-card-header">
+                        <div class="content-card-icon bg-red animate-float" style="animation-delay: 0.5s;">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <h3 class="content-card-title">Prohibited Data</h3>
+                    </div>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-times text-red"></i>
+                            <span>Personal Information</span>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-times text-red"></i>
+                            <span>Financial Data</span>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-times text-red"></i>
+                            <span>Confidential Documents</span>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-times text-red"></i>
+                            <span>Client Information</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Approved Tools -->
+                <div class="content-card glass-morphism reveal-item" onclick="revealPractice(2)">
+                    <div class="content-card-header">
+                        <div class="content-card-icon bg-green animate-float" style="animation-delay: 1s;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3 class="content-card-title">Approved Tools</h3>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="background: rgba(0, 114, 142, 0.2); border-radius: 12px; padding: 1.5rem; text-align: center;">
+                            <i class="fab fa-openai" style="font-size: 2rem; color: var(--bpn-turquoise); margin-bottom: 0.5rem;"></i>
+                            <div style="font-size: 0.95rem; font-weight: 600;">ChatGPT Teams</div>
+                        </div>
+                        <div style="background: rgba(168, 203, 99, 0.2); border-radius: 12px; padding: 1.5rem; text-align: center;">
+                            <i class="fab fa-google" style="font-size: 2rem; color: var(--bpn-green); margin-bottom: 0.5rem;"></i>
+                            <div style="font-size: 0.95rem; font-weight: 600;">Gemini Workspace</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Principles -->
+            <div class="security-principles">
+                <div class="glass-morphism" style="border-radius: 24px; padding: 2rem;">
+                    <h3 class="principles-header">Security Principles</h3>
+                    <div class="principles-grid">
+                        <div class="principle-item reveal-item">
+                            <div class="principle-icon bg-turquoise animate-pulse-glow">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="principle-text">Always Encrypt</div>
+                        </div>
+                        <div class="principle-item reveal-item">
+                            <div class="principle-icon bg-green animate-pulse-glow" style="animation-delay: 0.3s;">
+                                <i class="fas fa-eye-slash"></i>
+                            </div>
+                            <div class="principle-text">Never Expose</div>
+                        </div>
+                        <div class="principle-item reveal-item">
+                            <div class="principle-icon bg-turquoise animate-pulse-glow" style="animation-delay: 0.6s;">
+                                <i class="fas fa-users-cog"></i>
+                            </div>
+                            <div class="principle-text">Team Access Only</div>
+                        </div>
+                        <div class="principle-item reveal-item">
+                            <div class="principle-icon bg-green animate-pulse-glow" style="animation-delay: 0.9s;">
+                                <i class="fas fa-shield-check"></i>
+                            </div>
+                            <div class="principle-text">Verify Always</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            const progressDots = document.querySelectorAll('.progress-dot');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            // Initialize
+            updateSlide();
+            
+            // Navigation event listeners
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // Progress dot navigation
+            progressDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentSlide = index;
+                    updateSlide();
+                });
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.code === 'ArrowRight' || e.code === 'Space') {
+                    e.preventDefault();
+                    nextSlide();
+                } else if (e.code === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevSlide();
+                }
+            });
+
+            function nextSlide() {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            }
+
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            }
+
+            function updateSlide() {
+                // Update slide positions
+                slides.forEach((slide, index) => {
+                    slide.classList.remove('active', 'prev');
+                    if (index === currentSlide) {
+                        slide.classList.add('active');
+                    } else if (index < currentSlide) {
+                        slide.classList.add('prev');
+                    }
+                });
+
+                // Update progress dots
+                progressDots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+
+                // Update navigation buttons
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.style.display = currentSlide === slides.length - 1 ? 'none' : 'flex';
+
+                // Trigger reveal animations for current slide
+                setTimeout(() => {
+                    const currentSlideElement = slides[currentSlide];
+                    const revealItems = currentSlideElement.querySelectorAll('.reveal-item');
+                    revealItems.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('revealed');
+                        }, index * 200);
+                    });
+                }, 400);
+
+                // Reset reveal items for other slides
+                slides.forEach((slide, index) => {
+                    if (index !== currentSlide) {
+                        const revealItems = slide.querySelectorAll('.reveal-item');
+                        revealItems.forEach(item => {
+                            item.classList.remove('revealed');
+                        });
+                    }
+                });
+            }
+
+            // Interactive reveal functions
+            window.revealContent = function(index) {
+                console.log(`Revealing content ${index}`);
+                // Add additional interactive animations here
+            };
+
+            window.revealStep = function(step) {
+                console.log(`Revealing step ${step}`);
+                // Add step-by-step workflow animations here
+            };
+
+            window.revealPractice = function(practice) {
+                console.log(`Revealing practice ${practice}`);
+                // Add best practice detail animations here
+            };
+
+            // Auto-start animations on page load
+            setTimeout(() => {
+                updateSlide();
+            }, 500);
+        })();
+    </script>
+</body>
+</html>
