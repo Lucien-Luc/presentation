@@ -1116,18 +1116,13 @@
                                         <polygon points="0 0, 12 4.5, 0 9" fill="#ef4444" />
                                     </marker>
                                 </defs>
-                                <path class="arrow-path danger-path" d="M 225,70 A 100,100 0 0,1 325,225" 
-                                      marker-end="url(#arrowhead-danger)" stroke-dasharray="5,3"
-                                      style="animation: flowingEnergy 2s linear infinite;"/>
-                                <path class="arrow-path danger-path" d="M 325,225 A 100,100 0 0,1 225,380" 
-                                      marker-end="url(#arrowhead-danger)" stroke-dasharray="5,3"
-                                      style="animation: flowingEnergy 2s linear infinite 0.5s;"/>
-                                <path class="arrow-path danger-path" d="M 225,380 A 100,100 0 0,1 125,225" 
-                                      marker-end="url(#arrowhead-danger)" stroke-dasharray="5,3"
-                                      style="animation: flowingEnergy 2s linear infinite 1s;"/>
-                                <path class="arrow-path danger-path" d="M 125,225 A 100,100 0 0,1 225,70" 
-                                      marker-end="url(#arrowhead-danger)" stroke-dasharray="5,3"
-                                      style="animation: flowingEnergy 2s linear infinite 1.5s;"/>
+                                <circle class="arrow-path danger-path" cx="225" cy="225" r="120" 
+                                        fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="8,4"
+                                        style="animation: flowingEnergy 3s linear infinite;"
+                                        marker-end="url(#arrowhead-danger)"/>
+                                <circle class="arrow-path danger-path" cx="225" cy="225" r="140" 
+                                        fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,3" opacity="0.6"
+                                        style="animation: flowingEnergy 4s linear infinite reverse;"/>
                             </svg>
                         </div>
                         
@@ -1197,14 +1192,16 @@
                                         <polygon points="0 0, 12 4.5, 0 9" fill="var(--bpn-green)" />
                                     </marker>
                                 </defs>
-                                <path class="arrow-path secure-path" d="M 225,70 A 100,100 0 0,1 325,225" 
-                                      marker-end="url(#arrowhead-secure)" stroke-dasharray="8,2"
-                                      style="animation: flowingEnergy 1.5s linear infinite;"/>
-                                <path class="arrow-path secure-path" d="M 325,225 A 100,100 0 0,1 225,380" 
-                                      marker-end="url(#arrowhead-secure)" stroke-dasharray="8,2"
-                                      style="animation: flowingEnergy 1.5s linear infinite 0.3s;"/>
-                                <path class="arrow-path blocked-path" d="M 225,380 A 100,100 0 0,1 125,225" 
-                                      stroke-dasharray="10,5" style="animation: flowingEnergy 3s linear infinite reverse;"/>
+                                <circle class="arrow-path secure-path" cx="225" cy="225" r="120" 
+                                        fill="none" stroke="var(--bpn-green)" stroke-width="3" stroke-dasharray="10,3"
+                                        style="animation: flowingEnergy 2.5s linear infinite;"
+                                        marker-end="url(#arrowhead-secure)"/>
+                                <circle class="arrow-path secure-path" cx="225" cy="225" r="140" 
+                                        fill="none" stroke="var(--bpn-turquoise)" stroke-width="2" stroke-dasharray="6,2" opacity="0.7"
+                                        style="animation: flowingEnergy 3s linear infinite reverse;"/>
+                                <circle class="arrow-path blocked-path" cx="225" cy="225" r="160" 
+                                        fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="15,8" opacity="0.4"
+                                        style="animation: flowingEnergy 5s linear infinite reverse;"/>
                             </svg>
                         </div>
                         
